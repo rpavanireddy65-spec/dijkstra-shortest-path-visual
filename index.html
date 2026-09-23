@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dijkstra's Algorithm - Single Source Shortest Path</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div>
+        <h1>Dijkstra's Algorithm</h1>
+        <p>Single Source Shortest Path using Greedy Method</p>
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- INTRODUCTION -->
+    <section class="intro card">
+
+        <h2>Single Source Shortest Path</h2>
+
+        <p>
+            Dijkstra's algorithm finds the shortest path from one source
+            vertex to every other vertex in a weighted graph.
+        </p>
+
+        <div class="formula">
+            If distance[u] + weight(u,v) &lt; distance[v],
+            update distance[v].
+        </div>
+
+        <div class="warning">
+            ⚠ Dijkstra's algorithm works only with non-negative edge weights.
+        </div>
+
+    </section>
+
+
+    <!-- CONTROLS -->
+    <section class="card">
+
+        <h2>Graph Controls</h2>
+
+        <div class="controls">
+
+            <div class="control-group">
+
+                <label for="graphPreset">
+                    Select Graph Type
+                </label>
+
+                <select id="graphPreset">
+
+                    <option value="simple">
+                        Simple Connected Graph
+                    </option>
+
+                    <option value="directed">
+                        Directed Graph
+                    </option>
+
+                    <option value="disconnected">
+                        Disconnected Graph
+                    </option>
+
+                    <option value="multiple">
+                        Multiple Paths Graph
+                    </option>
+
+                    <option value="weighted">
+                        Weighted Graph
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="control-group">
+
+                <label for="sourceVertex">
+                    Source Vertex
+                </label>
+
+                <select id="sourceVertex"></select>
+
+            </div>
+
+
+            <button id="loadGraphBtn" class="secondary">
+                Load Graph
+            </button>
+
+            <button id="runBtn" class="primary">
+                ▶ Run Dijkstra
+            </button>
+
+            <button id="stepBtn" class="success">
+                Step
+            </button>
+
+            <button id="resetBtn" class="danger">
+                Reset
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- GRAPH -->
+    <section class="card">
+
+        <div class="section-title">
+
+            <h2>Graph Visualization</h2>
+
+            <div class="legend">
+
+                <span>
+                    <i class="legend-node"></i>
+                    Vertex
+                </span>
+
+                <span>
+                    <i class="legend-current"></i>
+                    Current
+                </span>
+
+                <span>
+                    <i class="legend-visited"></i>
+                    Visited
+                </span>
+
+                <span>
+                    <i class="legend-path"></i>
+                    Shortest Path
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div id="graphContainer" class="graph-container">
+
+            <svg id="graphSvg"></svg>
+
+        </div>
+
+    </section>
+
+
+    <!-- ALGORITHM STATUS -->
+    <section class="card">
+
+        <h2>Algorithm Status</h2>
+
+        <div id="status" class="status">
+            Select a graph and click "Run Dijkstra".
+        </div>
+
+        <div class="step-box">
+
+            <h3>Current Greedy Step</h3>
+
+            <p id="stepExplanation">
+                No step has been performed yet.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- DISTANCE TABLE -->
+    <section class="card">
+
+        <h2>Distance Table</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Vertex</th>
+                        <th>Distance</th>
+                        <th>Previous</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="distanceTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- SHORTEST PATH -->
+    <section class="card">
+
+        <h2>Shortest Paths from Source</h2>
+
+        <div id="shortestPaths" class="paths">
+
+            Run the algorithm to display shortest paths.
+
+        </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="card">
+
+        <h2>How Dijkstra's Greedy Method Works</h2>
+
+        <div class="algorithm-steps">
+
+            <div class="algorithm-step">
+
+                <span>1</span>
+
+                <div>
+                    <h3>Initialize</h3>
+
+                    <p>
+                        Set the source vertex distance to 0.
+                        Set all other distances to infinity.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="algorithm-step">
+
+                <span>2</span>
+
+                <div>
+                    <h3>Select Minimum</h3>
+
+                    <p>
+                        Select the unvisited vertex having the smallest
+                        tentative distance.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="algorithm-step">
+
+                <span>3</span>
+
+                <div>
+                    <h3>Relax Edges</h3>
+
+                    <p>
+                        Examine all neighboring vertices and check whether
+                        a shorter path can be obtained through the current
+                        vertex.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="algorithm-step">
+
+                <span>4</span>
+
+                <div>
+                    <h3>Mark Visited</h3>
+
+                    <p>
+                        Mark the selected vertex as permanently processed.
+                        This is the greedy choice.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="algorithm-step">
+
+                <span>5</span>
+
+                <div>
+                    <h3>Repeat</h3>
+
+                    <p>
+                        Continue until all reachable vertices have been
+                        processed.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="algorithm-step">
+
+                <span>6</span>
+
+                <div>
+                    <h3>Construct Paths</h3>
+
+                    <p>
+                        Use the previous-vertex information to reconstruct
+                        the shortest path from the source.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- COMPLEXITY -->
+    <section class="card complexity">
+
+        <h2>Time Complexity</h2>
+
+        <div class="complexity-grid">
+
+            <div>
+                <strong>O(V²)</strong>
+                <span>Using simple array / matrix</span>
+            </div>
+
+            <div>
+                <strong>O((V + E) log V)</strong>
+                <span>Using priority queue</span>
+            </div>
+
+            <div>
+                <strong>O(V + E)</strong>
+                <span>Graph traversal representation</span>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Dijkstra's Algorithm | Single Source Shortest Path |
+        Greedy Method
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
